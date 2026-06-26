@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Navigator — Your Personal College Counselor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg class="nav-logo-icon" viewBox="0 0 32 32" fill="none">
+          <path d="M16 3 3 10l13 7 13-7-13-7z" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M3 22l13 7 13-7" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M3 16l13 7 13-7" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+        </svg>
+        <span class="nav-logo-text">College Navigator</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#who" class="nav-link">Who It's For</a>
+        <a href="login.html" class="btn btn-nav">Get Started Free</a>
+      </div>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="#features" class="nav-mobile-link">Features</a>
+      <a href="#who" class="nav-mobile-link">Who It's For</a>
+      <a href="login.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:4px;">Get Started Free</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container hero-container">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI-Powered &bull; Real-Time Data &bull; Free to Use
+      </div>
+      <h1 class="hero-h1">
+        The College Counselor<br />
+        <em class="hero-em">Every Student Deserves</em>
+      </h1>
+      <p class="hero-sub">
+        Personalized guidance for college search, athletic recruiting,
+        financial aid, and admissions strategy. Real answers, not generic advice.
+      </p>
+      <div class="hero-actions">
+        <a href="login.html" class="btn btn-gold btn-hero">Start Your Journey &rarr;</a>
+        <p class="hero-nudge">No account needed &nbsp;&middot;&nbsp; Start in 30 seconds</p>
+      </div>
+      <div class="hero-proof">
+        <div class="proof-item">
+          <span class="proof-num">1,000+</span>
+          <span class="proof-label">Colleges covered</span>
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-item">
+          <span class="proof-num">All</span>
+          <span class="proof-label">NCAA / NAIA divisions</span>
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-item">
+          <span class="proof-num">Live</span>
+          <span class="proof-label">Real-time data lookups</span>
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-item">
+          <span class="proof-num">24/7</span>
+          <span class="proof-label">Always available</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FEATURES ─── -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Core Capabilities</p>
+        <h2 class="section-h2">Everything You Need in One Place</h2>
+        <p class="section-sub">Real, specific, actionable guidance — not the generic advice you could Google yourself.</p>
+      </div>
+
+      <div class="feature-grid">
+
+        <div class="fcard">
+          <div class="fcard-icon fcard-icon--navy">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7.5" stroke="currentColor" stroke-width="2"/>
+              <path d="m21 21-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="fcard-title">College Search</h3>
+          <p class="fcard-desc">Build a real, data-backed college list with reach, match, and safety schools based on your GPA, test scores, and goals — not wishful thinking.</p>
+          <ul class="fcard-list">
+            <li>Academic fit analysis</li>
+            <li>Selectivity tiers &amp; admit data</li>
+            <li>Campus culture &amp; environment</li>
+            <li>Rankings in context</li>
+          </ul>
+        </div>
+
+        <div class="fcard fcard--featured">
+          <div class="fcard-badge">Most Popular</div>
+          <div class="fcard-icon fcard-icon--gold">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M8.5 14 7 23l5-3 5 3-1.5-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="8.5" r="5" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="fcard-title">Athletic Recruiting</h3>
+          <p class="fcard-desc">Navigate the full recruiting process across every NCAA, NAIA, and NJCAA division — from your highlight film to signing day.</p>
+          <ul class="fcard-list">
+            <li>Division-level fit assessment</li>
+            <li>Sport-specific timelines</li>
+            <li>Coach email strategy</li>
+            <li>NIL basics &amp; Transfer Portal</li>
+          </ul>
+        </div>
+
+        <div class="fcard">
+          <div class="fcard-icon fcard-icon--navy">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 7h6M9 11h6M9 15h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="fcard-title">Major Explorer</h3>
+          <p class="fcard-desc">Explore every major category. Get honest salary data, job outlook, top programs nationally, and whether grad school is actually required.</p>
+          <ul class="fcard-list">
+            <li>Career outcome mapping</li>
+            <li>BLS salary &amp; job data</li>
+            <li>Top programs by field</li>
+            <li>Grad school guidance</li>
+          </ul>
+        </div>
+
+        <div class="fcard">
+          <div class="fcard-icon fcard-icon--navy">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="fcard-title">Financial Aid</h3>
+          <p class="fcard-desc">Decode what college actually costs your family. Compare net prices, maximize institutional grants, and build a financial strategy that works.</p>
+          <ul class="fcard-list">
+            <li>Net price vs. sticker price</li>
+            <li>FAFSA strategy</li>
+            <li>Merit aid positioning</li>
+            <li>Aid package negotiation</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WHO IS THIS FOR ─── -->
+  <section class="who" id="who">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Built For You</p>
+        <h2 class="section-h2">Who Is This For?</h2>
+        <p class="section-sub">College Navigator adapts to your specific situation, goals, and stage in the process.</p>
+      </div>
+
+      <div class="who-grid">
+
+        <div class="who-card">
+          <div class="who-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>High School Student</h3>
+          <p>Explore colleges with expert guidance. Build a smart list, understand your options, and put together a strong application — not a guessing game.</p>
+          <div class="who-tags">
+            <span>College Lists</span><span>Applications</span><span>Essays</span>
+          </div>
+        </div>
+
+        <div class="who-card who-card--featured">
+          <div class="who-icon who-icon--gold">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M8.5 14 7 23l5-3 5 3-1.5-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="8.5" r="5" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Student-Athlete</h3>
+          <p>Navigate recruiting across every sport and division. Know your realistic fit, build a target school list, and learn exactly how to approach coaches.</p>
+          <div class="who-tags who-tags--gold">
+            <span>Recruiting</span><span>Scholarships</span><span>Eligibility</span>
+          </div>
+        </div>
+
+        <div class="who-card">
+          <div class="who-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Transfer Student</h3>
+          <p>Whether you're coming from community college or moving between 4-year schools, get honest guidance on credits, eligibility, and finding the right next step.</p>
+          <div class="who-tags">
+            <span>Transfer Plans</span><span>Credits</span><span>Portal Rules</span>
+          </div>
+        </div>
+
+        <div class="who-card">
+          <div class="who-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Parent</h3>
+          <p>Understand what college actually costs your family, how financial aid really works, and how to help your student make a smart decision.</p>
+          <div class="who-tags">
+            <span>Real Costs</span><span>Financial Aid</span><span>ROI</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── LIVE DATA CALLOUT ─── -->
+  <section class="live-callout">
+    <div class="container">
+      <div class="live-callout-inner">
+        <div class="live-callout-icon">
+          <svg viewBox="0 0 24 24" fill="none" width="28" height="28">
+            <circle cx="12" cy="12" r="10" stroke="#C9A84C" stroke-width="2"/>
+            <path d="M12 8v4l3 3" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="live-callout-text">
+          <h3>Real-Time Data When It Matters</h3>
+          <p>When you ask about current acceptance rates, tuition, scholarship deadlines, Transfer Portal activity, or NIL news, College Navigator automatically pulls live data from the web — so you're never working with outdated numbers.</p>
+        </div>
+        <a href="login.html" class="btn btn-gold">Try It Now &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section class="cta-section">
+    <div class="container cta-inner">
+      <h2>Ready to Build Your Future?</h2>
+      <p>Get personalized college guidance in under a minute. No forms, no fees, no waiting.</p>
+      <a href="login.html" class="btn btn-gold btn-hero">Start for Free &rarr;</a>
+      <div class="cta-trust">
+        <span>&#10003; Free to use</span>
+        <span>&#10003; No account required</span>
+        <span>&#10003; Live data included</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <svg viewBox="0 0 32 32" fill="none" width="22" height="22">
+          <path d="M16 3 3 10l13 7 13-7-13-7z" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M3 22l13 7 13-7" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M3 16l13 7 13-7" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+        </svg>
+        <span>College Navigator</span>
+      </div>
+      <p class="footer-copy">
+        &copy; 2025 College Navigator. Powered by Claude AI + Perplexity.
+        Always verify college-specific information with official sources.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll spy for navbar
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('navMobile');
+    hamburger.addEventListener('click', () => {
+      navMobile.classList.toggle('open');
+      hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navMobile.classList.remove('open');
+        hamburger.classList.remove('open');
+      });
+    });
+
+    // Smooth scroll for in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+
+</body>
+</html>

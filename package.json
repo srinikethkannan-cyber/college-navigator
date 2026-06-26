@@ -1,0 +1,17 @@
+{
+  "name": "college-navigator",
+  "version": "1.0.0",
+  "description": "AI College Navigator — Powered by Claude + Perplexity",
+  "main": "server.js",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase": "^10.12.0"
+  }
+}
