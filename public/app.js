@@ -168,7 +168,7 @@ function setupIntake() {
   budgetSlider.addEventListener('input', () => {
     intakeData.budget = budgetSlider.value;
     const k = Math.round(Number(budgetSlider.value) / 1000);
-    budgetDisplay.textContent = k >= 80 ? '$80K+/yr' : `$${k}K/yr`;
+    budgetDisplay.textContent = k >= 100 ? '$100K+/yr' : `$${k}K/yr`;
   });
 
   // Name
