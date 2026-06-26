@@ -1,4 +1,4 @@
-require('dotenv').config();
+try { require('dotenv').config(); } catch (_) {}
 const express = require('express');
 const Anthropic = require('@anthropic-ai/sdk');
 const path = require('path');
@@ -90,7 +90,7 @@ async function searchPerplexity(query) {
 app.post('/api/chat', async (req, res) => {
   if (!process.env.ANTHROPIC_API_KEY) {
     return res.status(500).json({
-      error: 'ANTHROPIC_API_KEY is not configured. Add it to .env and restart.',
+      error: 'ANTHROPIC_API_KEY is not configured. Set it as an environment variable and restart.',
     });
   }
 
