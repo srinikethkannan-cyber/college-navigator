@@ -10,17 +10,22 @@ let isWaiting          = false;
 
 // Multi-step intake state
 let intakeData = {
-  userType:    '',
-  goals:       [],
-  sport:       '',
-  division:    '',
-  gpa:         '3.5',
-  testType:    'SAT',
-  testScore:   '',
-  semesters:   [],
-  schoolTypes: [],
-  budget:      '40000',
-  name:        '',
+  userType:         '',
+  goals:            [],
+  sport:            '',
+  division:         '',
+  gpa:              '3.5',
+  testType:         'SAT',
+  testScore:        '',
+  semesters:        [],
+  schoolTypes:      [],
+  budget:           '40000',
+  name:             '',
+  major:            '',
+  transferFrom:     '',
+  creditsCompleted: '0',
+  geoPreference:    '',
+  envPreference:    [],
 };
 
 // Speech
@@ -171,6 +176,42 @@ function setupIntake() {
     budgetDisplay.textContent = k >= 100 ? '$100K+/yr' : `$${k}K/yr`;
   });
 
+  // Transfer fields
+  document.getElementById('transferFrom')?.addEventListener('input', e => {
+    intakeData.transferFrom = e.target.value.trim();
+  });
+
+  const creditsSlider  = document.getElementById('creditsSlider');
+  const creditsDisplay = document.getElementById('creditsDisplay');
+  creditsSlider?.addEventListener('input', () => {
+    intakeData.creditsCompleted = creditsSlider.value;
+    creditsDisplay.textContent  = creditsSlider.value;
+  });
+
+  // Major
+  document.getElementById('majorInput')?.addEventListener('input', e => {
+    intakeData.major = e.target.value.trim();
+  });
+
+  // Geographic preference
+  document.getElementById('geoPreference')?.addEventListener('input', e => {
+    intakeData.geoPreference = e.target.value.trim();
+  });
+
+  // Environment tiles (multi-select; "No Preference" clears others)
+  document.querySelectorAll('.env-tile').forEach(tile => {
+    tile.addEventListener('click', () => {
+      if (tile.dataset.value === 'No Preference') {
+        document.querySelectorAll('.env-tile').forEach(t => t.classList.remove('tile-active'));
+        tile.classList.add('tile-active');
+      } else {
+        document.querySelector('.env-tile[data-value="No Preference"]')?.classList.remove('tile-active');
+        tile.classList.toggle('tile-active');
+      }
+      intakeData.envPreference = [...document.querySelectorAll('.env-tile.tile-active')].map(t => t.dataset.value);
+    });
+  });
+
   // Name
   document.getElementById('userName').addEventListener('input', e => {
     intakeData.name = e.target.value.trim();
@@ -201,6 +242,14 @@ function hideAthleteFields() {
   document.getElementById('athleteFields').hidden = true;
 }
 
+function showTransferFields() {
+  document.getElementById('transferFields').hidden = false;
+}
+
+function hideTransferFields() {
+  document.getElementById('transferFields').hidden = true;
+}
+
 function showIntakeError(msg) {
   intakeError.textContent = msg || 'Please complete the required fields before continuing.';
   intakeError.style.display = 'block';
@@ -216,10 +265,12 @@ function goToStep(n) {
   document.getElementById('intakeProgressFill').style.width = `${n * 25}%`;
   document.getElementById('intakeStepLabel').textContent = `Step ${n} of 4`;
 
-  // Show/hide athlete fields when arriving at step 3
+  // Show/hide conditional fields when arriving at step 3
   if (n === 3) {
     if (intakeData.userType === 'Student-Athlete') showAthleteFields();
     else hideAthleteFields();
+    if (intakeData.userType === 'Transfer Student') showTransferFields();
+    else hideTransferFields();
   }
 
   // Populate step 4 summary
@@ -235,10 +286,15 @@ function buildStep4Summary() {
     intakeData.userType,
     intakeData.goals.join(', '),
     intakeData.sport ? intakeData.sport + (intakeData.division ? ` · ${intakeData.division}` : '') : null,
+    intakeData.transferFrom ? `From: ${intakeData.transferFrom}` : null,
+    intakeData.creditsCompleted && intakeData.creditsCompleted !== '0' ? `${intakeData.creditsCompleted} credits` : null,
     `GPA ${parseFloat(intakeData.gpa).toFixed(1)}`,
     (intakeData.testType !== 'None' && intakeData.testScore)
       ? `${intakeData.testType} ${intakeData.testScore}` : null,
+    intakeData.major ? `Major: ${intakeData.major}` : null,
     intakeData.semesters.length ? intakeData.semesters.join(' / ') : null,
+    intakeData.geoPreference ? `Location: ${intakeData.geoPreference}` : null,
+    intakeData.envPreference.length ? intakeData.envPreference.join(' · ') : null,
     intakeData.budget ? `$${Math.round(Number(intakeData.budget)/1000)}K/yr budget` : null,
   ].filter(Boolean);
 
@@ -261,15 +317,23 @@ async function startSession() {
 }
 
 function buildIntroMessage(data) {
-  const { name, userType, goals, sport, division, gpa, testType, testScore, semesters, schoolTypes, budget } = data;
+  const { name, userType, goals, sport, division, gpa, testType, testScore, semesters, schoolTypes, budget,
+          major, transferFrom, creditsCompleted, geoPreference, envPreference } = data;
 
   let profile = `My name is ${name}. I am a ${userType}.`;
   if (sport) profile += ` I play ${sport}${division ? ` and I'm targeting ${division}` : ''}.`;
+  if (transferFrom) profile += ` I'm transferring from ${transferFrom}.`;
+  if (creditsCompleted && creditsCompleted !== '0') profile += ` I have completed ${creditsCompleted} college credits.`;
   profile += ` I'm interested in: ${goals.join(', ')}.`;
   profile += ` My GPA is ${parseFloat(gpa).toFixed(1)}.`;
   if (testType !== 'None' && testScore) profile += ` My ${testType} score is ${testScore}.`;
+  if (major) profile += ` I'm interested in studying ${major}.`;
   if (semesters.length) profile += ` Target enrollment: ${semesters.join(' or ')}.`;
   if (schoolTypes.length && !schoolTypes.includes('Any')) profile += ` I prefer ${schoolTypes.join(', ')} schools.`;
+  if (geoPreference) profile += ` Geographic preference: ${geoPreference}.`;
+  if (envPreference && envPreference.length && !envPreference.includes('No Preference')) {
+    profile += ` Campus environment preference: ${envPreference.join(', ')}.`;
+  }
   if (budget) {
     const k = Math.round(Number(budget)/1000);
     profile += ` My annual budget is around $${k}K.`;
@@ -303,10 +367,12 @@ function resetIntakeForm() {
     userType: '', goals: [], sport: '', division: '',
     gpa: '3.5', testType: 'SAT', testScore: '',
     semesters: [], schoolTypes: [], budget: '40000', name: '',
+    major: '', transferFrom: '', creditsCompleted: '0',
+    geoPreference: '', envPreference: [],
   };
 
   // Reset tiles
-  document.querySelectorAll('.role-tile, .goal-tile, .semester-tile, .school-tile')
+  document.querySelectorAll('.role-tile, .goal-tile, .semester-tile, .school-tile, .env-tile')
     .forEach(t => t.classList.remove('tile-active'));
 
   // Reset step-1 next button
@@ -326,6 +392,15 @@ function resetIntakeForm() {
 
   const name = document.getElementById('userName');
   if (name) name.value = '';
+
+  const majorInput = document.getElementById('majorInput');
+  if (majorInput) majorInput.value = '';
+  const transferFrom = document.getElementById('transferFrom');
+  if (transferFrom) transferFrom.value = '';
+  const credits = document.getElementById('creditsSlider');
+  if (credits) { credits.value = 0; document.getElementById('creditsDisplay').textContent = '0'; }
+  const geo = document.getElementById('geoPreference');
+  if (geo) geo.value = '';
 
   goToStep(1);
 }

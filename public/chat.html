@@ -153,6 +153,19 @@
         <h2 class="intake-h2">Your profile</h2>
         <p class="intake-sub">Help us personalize every answer to your situation.</p>
 
+        <!-- Transfer fields — shown only for Transfer Student -->
+        <div id="transferFields" hidden>
+          <div class="intake-field">
+            <label>Transferring From <span class="intake-optional">optional</span></label>
+            <input type="text" class="intake-text-input" id="transferFrom" placeholder="e.g. Community College, State University..." maxlength="100" />
+          </div>
+          <div class="intake-field">
+            <label>Credits Completed &nbsp;<span class="intake-label-val" id="creditsDisplay">0</span></label>
+            <input type="range" class="intake-slider" id="creditsSlider" min="0" max="120" step="1" value="0" />
+            <div class="slider-ticks"><span>0</span><span>30</span><span>60</span><span>90</span><span>120</span></div>
+          </div>
+        </div>
+
         <!-- Athlete fields — shown only for Student-Athlete -->
         <div id="athleteFields" hidden>
           <div class="intake-field">
@@ -210,6 +223,81 @@
           </div>
         </div>
 
+        <!-- Intended Major -->
+        <div class="intake-field">
+          <label>Intended Major <span class="intake-optional">optional</span></label>
+          <input type="text" class="intake-text-input" id="majorInput" placeholder="Search or type your major..." list="majorList" autocomplete="off" />
+          <datalist id="majorList">
+            <option>Accounting</option>
+            <option>Actuarial Science</option>
+            <option>Aerospace Engineering</option>
+            <option>Agriculture</option>
+            <option>Architecture</option>
+            <option>Art & Design</option>
+            <option>Biology</option>
+            <option>Biomedical Engineering</option>
+            <option>Business Administration</option>
+            <option>Chemical Engineering</option>
+            <option>Chemistry</option>
+            <option>Civil Engineering</option>
+            <option>Communications</option>
+            <option>Computer Science</option>
+            <option>Criminal Justice</option>
+            <option>Data Science</option>
+            <option>Economics</option>
+            <option>Education</option>
+            <option>Electrical Engineering</option>
+            <option>Environmental Science</option>
+            <option>Film & Media</option>
+            <option>Finance</option>
+            <option>Forensic Science</option>
+            <option>Game Design</option>
+            <option>Graphic Design</option>
+            <option>Health Administration</option>
+            <option>History</option>
+            <option>Hospitality Management</option>
+            <option>Human Resources</option>
+            <option>Industrial Engineering</option>
+            <option>Information Technology</option>
+            <option>International Business</option>
+            <option>International Relations</option>
+            <option>Journalism</option>
+            <option>Kinesiology/Exercise Science</option>
+            <option>Law (Pre-Law)</option>
+            <option>Liberal Arts</option>
+            <option>Linguistics</option>
+            <option>Marketing</option>
+            <option>Mathematics</option>
+            <option>Mechanical Engineering</option>
+            <option>Medicine (Pre-Med)</option>
+            <option>Music</option>
+            <option>Neuroscience</option>
+            <option>Nursing</option>
+            <option>Nutrition & Dietetics</option>
+            <option>Occupational Therapy</option>
+            <option>Operations Management</option>
+            <option>Pharmacy (Pre-Pharmacy)</option>
+            <option>Philosophy</option>
+            <option>Physical Therapy</option>
+            <option>Physics</option>
+            <option>Political Science</option>
+            <option>Psychology</option>
+            <option>Public Health</option>
+            <option>Public Policy</option>
+            <option>Real Estate</option>
+            <option>Social Work</option>
+            <option>Sociology</option>
+            <option>Software Engineering</option>
+            <option>Special Education</option>
+            <option>Statistics</option>
+            <option>Supply Chain Management</option>
+            <option>Theatre</option>
+            <option>Undecided</option>
+            <option>Veterinary Science (Pre-Vet)</option>
+            <option>Web Development</option>
+          </datalist>
+        </div>
+
         <!-- Target semester -->
         <div class="intake-field">
           <label>Target enrollment</label>
@@ -233,6 +321,26 @@
             <button type="button" class="mini-tile school-tile" data-value="Liberal Arts">Liberal Arts</button>
             <button type="button" class="mini-tile school-tile" data-value="Community College">Comm. College</button>
             <button type="button" class="mini-tile school-tile" data-value="Any">Any</button>
+          </div>
+        </div>
+
+        <!-- Geographic Preference -->
+        <div class="intake-field">
+          <label>Geographic Preference <span class="intake-optional">optional</span></label>
+          <input type="text" class="intake-text-input" id="geoPreference" placeholder="e.g. Northeast, California, Close to home..." maxlength="100" />
+        </div>
+
+        <!-- Campus Environment -->
+        <div class="intake-field">
+          <label>Campus Environment <span class="intake-optional">optional</span></label>
+          <div class="tile-row">
+            <button type="button" class="mini-tile env-tile" data-value="Large Research University">Large Research University</button>
+            <button type="button" class="mini-tile env-tile" data-value="Mid-Size University">Mid-Size University</button>
+            <button type="button" class="mini-tile env-tile" data-value="Small Liberal Arts">Small Liberal Arts</button>
+            <button type="button" class="mini-tile env-tile" data-value="Urban">Urban</button>
+            <button type="button" class="mini-tile env-tile" data-value="Suburban">Suburban</button>
+            <button type="button" class="mini-tile env-tile" data-value="Rural">Rural</button>
+            <button type="button" class="mini-tile env-tile" data-value="No Preference">No Preference</button>
           </div>
         </div>
 
