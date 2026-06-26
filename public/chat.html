@@ -50,10 +50,10 @@
   </script>
 
   <!-- ═══════════════════════════════════════════
-       INTAKE OVERLAY — shown before chat opens
+       INTAKE OVERLAY — multi-step wizard
   ════════════════════════════════════════════ -->
   <div class="intake-overlay" id="intakeOverlay">
-    <div class="intake-card">
+    <div class="intake-card intake-card--wide">
 
       <a href="index.html" class="intake-back">
         <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
@@ -71,65 +71,205 @@
         <span>College Navigator</span>
       </div>
 
-      <h2 class="intake-h2">Let's personalize your session</h2>
-      <p class="intake-sub">Answer 3 quick questions so we can give you the most relevant guidance right from the start.</p>
+      <!-- Progress -->
+      <div class="intake-progress-track">
+        <div class="intake-progress-fill" id="intakeProgressFill" style="width:25%"></div>
+      </div>
+      <p class="intake-step-label" id="intakeStepLabel">Step 1 of 4</p>
 
-      <form class="intake-form" id="intakeForm" novalidate>
+      <!-- ── STEP 1: Who are you? ── -->
+      <div class="intake-step" id="intakeStep1">
+        <h2 class="intake-h2">Who are you?</h2>
+        <p class="intake-sub">Select your situation to personalize your experience.</p>
+        <div class="role-grid">
+          <button type="button" class="role-tile" data-value="High School Student">
+            <span class="role-tile-icon">
+              <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12v5c3 3 9 3 12 0v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="role-tile-label">High School Student</span>
+          </button>
+          <button type="button" class="role-tile" data-value="Transfer Student">
+            <span class="role-tile-icon">
+              <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="role-tile-label">Transfer Student</span>
+          </button>
+          <button type="button" class="role-tile" data-value="Student-Athlete">
+            <span class="role-tile-icon">
+              <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M8.5 14 7 23l5-3 5 3-1.5-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="8.5" r="5" stroke="currentColor" stroke-width="2"/></svg>
+            </span>
+            <span class="role-tile-label">Student-Athlete</span>
+          </button>
+          <button type="button" class="role-tile" data-value="Parent">
+            <span class="role-tile-icon">
+              <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <span class="role-tile-label">Parent</span>
+          </button>
+          <button type="button" class="role-tile" data-value="College Counselor">
+            <span class="role-tile-icon">
+              <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2"/></svg>
+            </span>
+            <span class="role-tile-label">College Counselor</span>
+          </button>
+        </div>
+        <button class="btn btn-gold btn-intake" id="step1Next" disabled>Next &rarr;</button>
+      </div>
 
-        <div class="intake-field">
-          <label for="userType">Who are you?</label>
-          <div class="sel-wrap">
-            <select id="userType" required>
-              <option value="" disabled selected>Select your situation</option>
-              <option value="High School Student">High School Student</option>
-              <option value="Student-Athlete">Student-Athlete</option>
-              <option value="Transfer Student">Transfer Student</option>
-              <option value="Parent">Parent</option>
-              <option value="College Counselor">College Counselor</option>
-            </select>
-            <svg class="sel-arrow" viewBox="0 0 24 24" fill="none">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+      <!-- ── STEP 2: What are you looking for? ── -->
+      <div class="intake-step" id="intakeStep2" hidden>
+        <h2 class="intake-h2">What are you looking for?</h2>
+        <p class="intake-sub">Select all that apply — we'll focus on what matters most to you.</p>
+        <div class="goal-grid">
+          <button type="button" class="goal-tile" data-value="College Search">
+            <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="11" cy="11" r="7.5" stroke="currentColor" stroke-width="2"/><path d="m21 21-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            College Search
+          </button>
+          <button type="button" class="goal-tile" data-value="Athletic Recruiting">
+            <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M8.5 14 7 23l5-3 5 3-1.5-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="8.5" r="5" stroke="currentColor" stroke-width="2"/></svg>
+            Athletic Recruiting
+          </button>
+          <button type="button" class="goal-tile" data-value="Major & Career">
+            <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2"/></svg>
+            Major &amp; Career
+          </button>
+          <button type="button" class="goal-tile" data-value="Financial Aid">
+            <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="currentColor" stroke-width="2"/></svg>
+            Financial Aid
+          </button>
+          <button type="button" class="goal-tile" data-value="Admissions Strategy">
+            <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Admissions Strategy
+          </button>
+        </div>
+        <div class="intake-nav">
+          <button class="btn btn-outline-navy" id="step2Back">&larr; Back</button>
+          <button class="btn btn-gold" id="step2Next" disabled>Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Your Profile ── -->
+      <div class="intake-step" id="intakeStep3" hidden>
+        <h2 class="intake-h2">Your profile</h2>
+        <p class="intake-sub">Help us personalize every answer to your situation.</p>
+
+        <!-- Athlete fields — shown only for Student-Athlete -->
+        <div id="athleteFields" hidden>
+          <div class="intake-field">
+            <label>Sport</label>
+            <div class="sel-wrap">
+              <select id="athleteSport">
+                <option value="" disabled selected>Select your sport</option>
+                <optgroup label="Team Sports">
+                  <option>Baseball</option><option>Basketball</option><option>Football</option>
+                  <option>Ice Hockey</option><option>Lacrosse</option><option>Rowing / Crew</option>
+                  <option>Soccer</option><option>Softball</option><option>Volleyball</option><option>Water Polo</option>
+                </optgroup>
+                <optgroup label="Individual Sports">
+                  <option>Cross Country</option><option>Fencing</option><option>Field Hockey</option>
+                  <option>Golf</option><option>Gymnastics</option><option>Rifle</option>
+                  <option>Skiing</option><option>Swimming &amp; Diving</option>
+                  <option>Tennis</option><option>Track &amp; Field</option><option>Wrestling</option>
+                </optgroup>
+                <option>Other / Club Sport</option>
+              </select>
+              <svg class="sel-arrow" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          <div class="intake-field">
+            <label>Target Division</label>
+            <div class="sel-wrap">
+              <select id="athleteDivision">
+                <option value="" disabled selected>Select target division</option>
+                <option>NCAA D1</option><option>NCAA D2</option><option>NCAA D3</option>
+                <option>NAIA</option><option>NJCAA</option><option>Not sure yet</option>
+              </select>
+              <svg class="sel-arrow" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
           </div>
         </div>
 
+        <!-- GPA -->
         <div class="intake-field">
-          <label for="userGoal">What are you here for?</label>
-          <div class="sel-wrap">
-            <select id="userGoal" required>
-              <option value="" disabled selected>Select your primary goal</option>
-              <option value="College Search">College Search</option>
-              <option value="Athletic Recruiting">Athletic Recruiting</option>
-              <option value="Major &amp; Career Exploration">Major &amp; Career Exploration</option>
-              <option value="Financial Aid">Financial Aid</option>
-              <option value="Admissions Strategy">Admissions Strategy</option>
-              <option value="Transfer Planning">Transfer Planning</option>
-              <option value="All of the above">All of the above</option>
-            </select>
-            <svg class="sel-arrow" viewBox="0 0 24 24" fill="none">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <label>GPA &nbsp;<span class="intake-label-val" id="gpaDisplay">3.5</span></label>
+          <input type="range" class="intake-slider" id="gpaSlider" min="0" max="4.0" step="0.1" value="3.5" />
+          <div class="slider-ticks"><span>0.0</span><span>1.0</span><span>2.0</span><span>3.0</span><span>4.0</span></div>
+        </div>
+
+        <!-- Test scores -->
+        <div class="intake-field">
+          <label>Test Score &nbsp;<span class="intake-optional">optional</span></label>
+          <div class="test-toggle-wrap">
+            <div class="test-toggle">
+              <button type="button" class="test-tab active" data-test="SAT">SAT</button>
+              <button type="button" class="test-tab" data-test="ACT">ACT</button>
+              <button type="button" class="test-tab" data-test="None">None</button>
+            </div>
+            <input type="number" class="intake-number-input" id="satInput" placeholder="400–1600" min="400" max="1600" />
+            <input type="number" class="intake-number-input" id="actInput" placeholder="1–36" min="1" max="36" hidden />
           </div>
         </div>
 
+        <!-- Target semester -->
         <div class="intake-field">
-          <label for="userName">Your first name</label>
-          <input
-            type="text"
-            id="userName"
-            placeholder="What should I call you?"
-            maxlength="40"
-            required
-            autocomplete="given-name"
-          />
+          <label>Target enrollment</label>
+          <div class="tile-row">
+            <button type="button" class="mini-tile semester-tile" data-value="Fall 2025">Fall 2025</button>
+            <button type="button" class="mini-tile semester-tile" data-value="Spring 2026">Spring 2026</button>
+            <button type="button" class="mini-tile semester-tile" data-value="Fall 2026">Fall 2026</button>
+            <button type="button" class="mini-tile semester-tile" data-value="Fall 2027+">Fall 2027+</button>
+          </div>
         </div>
 
-        <button type="submit" class="btn btn-gold btn-intake" id="intakeBtn">
-          Start My Session &rarr;
-        </button>
+        <!-- School type -->
+        <div class="intake-field">
+          <label>School type preference</label>
+          <div class="tile-row">
+            <button type="button" class="mini-tile school-tile" data-value="Public">Public</button>
+            <button type="button" class="mini-tile school-tile" data-value="Private">Private</button>
+            <button type="button" class="mini-tile school-tile" data-value="HBCU">HBCU</button>
+            <button type="button" class="mini-tile school-tile" data-value="Liberal Arts">Liberal Arts</button>
+            <button type="button" class="mini-tile school-tile" data-value="Community College">Comm. College</button>
+            <button type="button" class="mini-tile school-tile" data-value="Any">Any</button>
+          </div>
+        </div>
 
-        <p id="intakeError" class="intake-error" style="display:none;">Please fill in all three fields before continuing.</p>
-      </form>
+        <!-- Budget -->
+        <div class="intake-field">
+          <label>Annual budget &nbsp;<span class="intake-label-val" id="budgetDisplay">$40,000/yr</span></label>
+          <input type="range" class="intake-slider" id="budgetSlider" min="0" max="80000" step="1000" value="40000" />
+          <div class="slider-ticks"><span>$0</span><span>$20K</span><span>$40K</span><span>$60K</span><span>$80K+</span></div>
+        </div>
+
+        <!-- First name -->
+        <div class="intake-field">
+          <label for="userName">First name <span class="intake-required">*</span></label>
+          <input type="text" id="userName" class="intake-text-input" placeholder="What should I call you?" maxlength="40" autocomplete="given-name" />
+        </div>
+
+        <div class="intake-nav">
+          <button class="btn btn-outline-navy" id="step3Back">&larr; Back</button>
+          <button class="btn btn-gold" id="step3Next">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 4: Ready ── -->
+      <div class="intake-step" id="intakeStep4" hidden>
+        <div class="intake-ready">
+          <div class="intake-ready-check">
+            <svg viewBox="0 0 24 24" fill="none" width="28" height="28">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 class="intake-h2">Ready, <span id="readyNameDisplay"></span>!</h2>
+          <p class="intake-sub">Your session is personalized and ready to go. Every answer will be tailored to your specific profile.</p>
+          <div class="intake-summary" id="intakeSummary"></div>
+          <button class="btn btn-gold btn-intake" id="intakeStartBtn">Start My Session &rarr;</button>
+          <button class="btn-text-back" id="step4Back">&larr; Edit my profile</button>
+        </div>
+      </div>
+
+      <p id="intakeError" class="intake-error" style="display:none">Please complete the required fields before continuing.</p>
     </div>
   </div>
 
@@ -264,6 +404,12 @@
             maxlength="4000"
             aria-label="Message"
           ></textarea>
+          <button class="mic-btn" id="micBtn" aria-label="Voice input" title="Click to speak">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
           <button class="send-btn" id="sendBtn" aria-label="Send" disabled>
             <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
               <path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
