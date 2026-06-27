@@ -900,7 +900,7 @@ async function loadChatSessions() {
     await loadSession(sessions[0]);
   }
 }
-  
+
 
 function renderSessionList(sessions) {
   const container = document.getElementById('chatHistoryList');
@@ -925,9 +925,7 @@ function renderSessionList(sessions) {
 async function loadSession(session) {
   if (isWaiting) return;
 
-  if (conversationHistory.length > 0) {
-    if (!confirm('Load this conversation? Current chat will be cleared.')) return;
-  }
+ 
 
   currentSessionId = session.id;
   conversationHistory = session.messages || [];
