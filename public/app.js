@@ -79,11 +79,13 @@ await loadChatSessions();
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get('session');
   if (sessionId && currentUserId) {
-    const { db, getDoc, doc } = window.firebaseDB;
-    const snap = await getDoc(doc(db, 'users', currentUserId, 'sessions', sessionId));
-    if (snap.exists()) {
-      await loadSession({ id: snap.id, ...snap.data() });
-    }
+    setTimeout(async () => {
+      const { db, getDoc, doc } = window.firebaseDB;
+      const snap = await getDoc(doc(db, 'users', currentUserId, 'sessions', sessionId));
+      if (snap.exists()) {
+        await loadSession({ id: snap.id, ...snap.data() });
+      }
+    }, 500);
   }
 });
 
