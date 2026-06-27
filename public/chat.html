@@ -30,10 +30,10 @@ if (!urlParams.get('session') && !urlParams.get('new')) {
   window.location.href = '/dashboard.html';
   return;
 }
+// Always reveal the page first
+document.body.style.opacity = '1';
 // Store user globally so app.js can read it
 window.currentFirebaseUser = user;
-// Always reveal the page
-document.body.style.opacity = '1';
 // Load session from URL
       const urlParams = new URLSearchParams(window.location.search);
       const sessionId = urlParams.get('session');
