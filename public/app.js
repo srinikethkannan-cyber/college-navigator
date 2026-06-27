@@ -74,23 +74,6 @@ window.addEventListener('firebase:authed', async (e) => {
   userInitial = (firstName?.[0] || '?').toUpperCase();
   document.querySelectorAll('.msg-avatar--user').forEach(a => a.textContent = userInitial);
 await loadChatSessions();
-
-  // Load session from URL if coming from dashboard
-  const urlParams = new URLSearchParams(window.location.search);
-  const sessionId = urlParams.get('session');
-  if (sessionId && currentUserId) {
-    setTimeout(async () => {
-      try {
-        const { db, getDoc, doc } = window.firebaseDB;
-        const snap = await getDoc(doc(db, 'users', currentUserId, 'sessions', sessionId));
-        if (snap.exists()) {
-          await loadSession({ id: snap.id, ...snap.data() });
-        }
-      } catch(e) {
-        console.error('Session load error:', e);
-      }
-    }, 1500);
-  }
 });
 
 // ════════════════════════════════════════════════════════════════
