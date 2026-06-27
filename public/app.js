@@ -7,6 +7,8 @@ let conversationHistory = [];
 let currentUserName    = '';
 let userInitial        = '?';
 let isWaiting          = false;
+let currentSessionId   = null;
+let currentUserId      = null;
 
 // Multi-step intake state
 let intakeData = {
@@ -66,6 +68,8 @@ window.addEventListener('firebase:authed', (e) => {
   if (firstName && nameInput && !nameInput.value) {
     nameInput.value = firstName;
   }
+  currentUserId = e.detail?.user?.uid;
+  loadChatSessions();
 });
 
 // ════════════════════════════════════════════════════════════════
@@ -608,6 +612,7 @@ async function streamResponse() {
     if (aiBubble && accumulated) {
       finalizeAIBubble(aiBubble, accumulated);
       conversationHistory.push({ role: 'assistant', content: accumulated });
+    saveSession();
     }
 
   } catch (err) {
@@ -846,4 +851,88 @@ function resetChat() {
   intakeOverlay.style.display = 'flex';
   resetIntakeForm();
   updateStatus('<span class="status-dot"></span>Ready to help');
+}
+// ════════════════════════════════════════════════════════════════
+//  FIRESTORE — CHAT HISTORY
+// ════════════════════════════════════════════════════════════════
+
+async function saveSession() {
+  if (!currentUserId || conversationHistory.length === 0) return;
+  const { db, collection, addDoc, doc, updateDoc, serverTimestamp } = window.firebaseDB;
+
+  const title = conversationHistory[0]?.content?.slice(0, 50) || 'New Conversation';
+
+  if (!currentSessionId) {
+    const ref = await addDoc(collection(db, 'users', currentUserId, 'sessions'), {
+      title,
+      messages: conversationHistory,
+      updatedAt: serverTimestamp(),
+    });
+    currentSessionId = ref.id;
+  } else {
+    await updateDoc(doc(db, 'users', currentUserId, 'sessions', currentSessionId), {
+      messages: conversationHistory,
+      updatedAt: serverTimestamp(),
+    });
+  }
+}
+
+async function loadChatSessions() {
+  if (!currentUserId) return;
+  const { db, collection, getDocs, query, orderBy } = window.firebaseDB;
+
+  const q = query(
+    collection(db, 'users', currentUserId, 'sessions'),
+    orderBy('updatedAt', 'desc')
+  );
+
+  const snapshot = await getDocs(q);
+  const sessions = [];
+  snapshot.forEach(d => sessions.push({ id: d.id, ...d.data() }));
+  renderSessionList(sessions);
+}
+
+function renderSessionList(sessions) {
+  const container = document.getElementById('chatHistoryList');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  if (sessions.length === 0) {
+    container.innerHTML = '<p class="no-history">No past conversations yet.</p>';
+    return;
+  }
+
+  sessions.forEach(session => {
+    const btn = document.createElement('button');
+    btn.className = 'history-item';
+    btn.textContent = session.title || 'Conversation';
+    btn.addEventListener('click', () => loadSession(session));
+    container.appendChild(btn);
+  });
+}
+
+async function loadSession(session) {
+  if (isWaiting) return;
+
+  if (conversationHistory.length > 0) {
+    if (!confirm('Load this conversation? Current chat will be cleared.')) return;
+  }
+
+  currentSessionId = session.id;
+  conversationHistory = session.messages || [];
+
+  chatMessages.innerHTML = '';
+  conversationHistory.forEach(msg => {
+    if (msg.role === 'user') appendUserBubble(msg.content);
+    else if (msg.role === 'assistant') {
+      const bubble = appendAIBubble();
+      finalizeAIBubble(bubble, msg.content);
+    }
+  });
+
+  intakeOverlay.style.display = 'none';
+  chatApp.removeAttribute('hidden');
+  closeSidebar();
+  scrollBottom();
 }

@@ -16,7 +16,7 @@
 
   <!-- ── Firebase auth guard ── -->
   <script type="module">
-    import { auth, signOut, onAuthStateChanged } from './firebase-init.js';
+    import { auth, signOut, onAuthStateChanged, db, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, serverTimestamp } from './firebase-init.js';
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -26,6 +26,7 @@
 
       // Store user globally so app.js can read it
       window.currentFirebaseUser = user;
+      window.firebaseDB = { db, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, serverTimestamp };
 
       // Reveal the page
       document.body.style.opacity = '1';
@@ -405,7 +406,12 @@
           </svg>
         </button>
       </div>
-
+<div class="sidebar-section">
+        <p class="sidebar-label">Recent Conversations</p>
+        <div id="chatHistoryList">
+          <p class="no-history">No past conversations yet.</p>
+        </div>
+      </div>
       <div class="sidebar-section">
         <p class="sidebar-label">Quick Start</p>
         <nav class="quick-prompts">

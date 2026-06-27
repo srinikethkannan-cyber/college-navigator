@@ -7,6 +7,18 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  serverTimestamp,
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey:            'AIzaSyAnV1R_PJReMfpH3FB-aaxe_ruXC20zoZo',
@@ -18,8 +30,12 @@ const firebaseConfig = {
   measurementId:     'G-MJEB014TD6',
 };
 
-const app          = initializeApp(firebaseConfig);
-const auth         = getAuth(app);
+const app            = initializeApp(firebaseConfig);
+const auth           = getAuth(app);
+const db             = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
-export { auth, googleProvider, signInWithPopup, signOut, onAuthStateChanged };
+export {
+  auth, googleProvider, signInWithPopup, signOut, onAuthStateChanged,
+  db, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp,
+};
