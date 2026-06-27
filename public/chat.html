@@ -40,7 +40,9 @@ window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, d
         try {
           const snap = await getDoc(doc(db, 'users', user.uid, 'sessions', sessionId));
           if (snap.exists()) {
-            window.dispatchEvent(new CustomEvent('session:preloaded', { detail: { id: snap.id, ...snap.data() } }));
+           const sessionData = { id: snap.id, ...snap.data() };
+window.__preloadedSession = sessionData;
+window.dispatchEvent(new CustomEvent('session:preloaded', { detail: sessionData }));
           }
         } catch(e) { console.error(e); }
       }

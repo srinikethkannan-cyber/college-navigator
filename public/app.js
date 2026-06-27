@@ -78,6 +78,11 @@ await loadChatSessions();
 window.addEventListener('session:preloaded', async (e) => {
   await loadSession(e.detail);
 });
+
+// Check if session was preloaded before app.js was ready
+if (window.__preloadedSession) {
+  loadSession(window.__preloadedSession);
+}
 // ════════════════════════════════════════════════════════════════
 //  MULTI-STEP INTAKE
 // ════════════════════════════════════════════════════════════════
