@@ -62,14 +62,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Pre-fill first name from Google profile once Firebase confirms auth
-window.addEventListener('firebase:authed', (e) => {
+window.addEventListener('firebase:authed', async (e) => {
   const firstName = e.detail?.user?.displayName?.split(' ')[0];
   const nameInput = document.getElementById('userName');
   if (firstName && nameInput && !nameInput.value) {
     nameInput.value = firstName;
   }
   currentUserId = e.detail?.user?.uid;
-  loadChatSessions();
+  currentUserName = firstName || '';
+  userInitial = (firstName?.[0] || '?').toUpperCase();
+  document.querySelectorAll('.msg-avatar--user').forEach(a => a.textContent = userInitial);
+
+  await loadChatSessions();
 });
 
 // ════════════════════════════════════════════════════════════════
@@ -890,7 +894,13 @@ async function loadChatSessions() {
   const sessions = [];
   snapshot.forEach(d => sessions.push({ id: d.id, ...d.data() }));
   renderSessionList(sessions);
+
+  // If user has past sessions, load the most recent one automatically
+  if (sessions.length > 0) {
+    await loadSession(sessions[0]);
+  }
 }
+  
 
 function renderSessionList(sessions) {
   const container = document.getElementById('chatHistoryList');
