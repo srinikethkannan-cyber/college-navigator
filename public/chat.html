@@ -16,9 +16,9 @@
 
   <!-- ── Firebase auth guard ── -->
   <script type="module">
-    import { auth, signOut, onAuthStateChanged, db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from './firebase-init.js';
+    import { auth, signOut, onAuthStateChanged, db, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, serverTimestamp } from './firebase-init.js';
 
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (!user) {
         window.location.href = '/login.html';
         return;
@@ -26,26 +26,15 @@
 
       // Redirect returning users to dashboard unless coming with a session or new chat
 const urlParams = new URLSearchParams(window.location.search);
-      if (!urlParams.get('session') && !urlParams.get('new')) {
+if (!urlParams.get('session') && !urlParams.get('new')) {
   window.location.href = '/dashboard.html';
   return;
 }
-// Always reveal the page first
-document.body.style.opacity = '1';
 // Store user globally so app.js can read it
 window.currentFirebaseUser = user;
-window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
-      const sessionId = urlParams.get('session');
-      if (sessionId) {
-        try {
-          const snap = await getDoc(doc(db, 'users', user.uid, 'sessions', sessionId));
-          if (snap.exists()) {
-           const sessionData = { id: snap.id, ...snap.data() };
-window.__preloadedSession = sessionData;
-window.dispatchEvent(new CustomEvent('session:preloaded', { detail: sessionData }));
-          }
-        } catch(e) { console.error(e); }
-      }
+// Always reveal the page
+document.body.style.opacity = '1';
+      window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
 
       // Reveal the page
       document.body.style.opacity = '1';
@@ -61,6 +50,19 @@ window.dispatchEvent(new CustomEvent('session:preloaded', { detail: sessionData 
 
       // Fire event so app.js can pre-fill the intake name field
       window.dispatchEvent(new CustomEvent('firebase:authed', { detail: { user } }));
+
+      // Load session from URL
+      const sessionId = urlParams.get('session');
+      if (sessionId) {
+        try {
+          const snap = await getDoc(doc(db, 'users', user.uid, 'sessions', sessionId));
+          if (snap.exists()) {
+            const sessionData = { id: snap.id, ...snap.data() };
+            window.__preloadedSession = sessionData;
+            setTimeout(() => window.dispatchEvent(new CustomEvent('session:preloaded', { detail: sessionData })), 1000);
+          }
+        } catch(e) { console.error(e); }
+      }
     });
 
     document.getElementById('signOutBtn')?.addEventListener('click', async () => {
