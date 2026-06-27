@@ -74,8 +74,9 @@ window.addEventListener('firebase:authed', async (e) => {
   document.querySelectorAll('.msg-avatar--user').forEach(a => a.textContent = userInitial);
 await loadChatSessions();
 
-  // Load session from URL if coming from dashboard
+  // Handle URL params
   const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('new')) { resetChat(); return; }
   const sessionId = urlParams.get('session');
   if (sessionId && currentUserId) {
     setTimeout(async () => {
@@ -859,9 +860,7 @@ function setupNewChatButtons() {
 }
 
 function confirmNewChat() {
-  if (conversationHistory.length > 0) {
-    if (!confirm('Start a new conversation? This will clear the current chat.')) return;
-  }
+
   resetChat();
 }
 

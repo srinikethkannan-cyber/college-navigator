@@ -23,6 +23,8 @@
       const urlParams = new URLSearchParams(window.location.search);
       if (!urlParams.get('session') && !urlParams.get('new')) { window.location.href = '/dashboard.html'; return; }
       document.body.style.opacity = '1';
+      history.replaceState(null, '', window.location.href);
+      window.onpopstate = () => { window.location.href = '/dashboard.html'; };
       window.currentFirebaseUser = user;
       window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
       const pic = document.getElementById('userProfilePic');
