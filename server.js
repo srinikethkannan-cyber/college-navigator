@@ -164,7 +164,7 @@ app.post('/api/chat', async (req, res) => {
 
     await stream.done();
     if (!res.writableEnded) { res.write('data: [DONE]\n\n'); res.end(); }
-  } } catch (err) {
+} catch (err) {
   const msg = err?.error?.message ?? err?.message ?? 'Unknown server error';
   if (!res.writableEnded) {
     send({ type: 'error', message: msg });
