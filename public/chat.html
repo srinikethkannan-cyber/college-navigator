@@ -16,7 +16,7 @@
 
   <!-- ── Firebase auth guard ── -->
   <script type="module">
-    import { auth, signOut, onAuthStateChanged, db, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, serverTimestamp } from './firebase-init.js';
+    import { auth, signOut, onAuthStateChanged, db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from './firebase-init.js';
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
