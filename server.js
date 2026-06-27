@@ -105,11 +105,7 @@ app.post('/api/chat', async (req, res) => {
   res.setHeader('Connection', 'keep-alive');
   res.setHeader('X-Accel-Buffering', 'no');
 
-  const send = (obj) => {
-  if (!res.writableEnded) {
-    res.write(`data: ${JSON.stringify(obj)}\n\n`);
-  }
-};
+  const send = (obj) => res.write(`data: ${JSON.stringify(obj)}\n\n`);
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -155,21 +151,17 @@ app.post('/api/chat', async (req, res) => {
     stream.on('text', (text) => send({ type: 'text', text }));
 
     stream.on('error', (err) => {
-  if (!res.writableEnded) {
-    send({ type: 'error', message: err.message });
-    res.end();
-  }
-});
+      send({ type: 'error', message: err.message });
+      res.end();
+    });
 
     await stream.done();
-    if (!res.writableEnded) { res.write('data: [DONE]\n\n'); res.end(); }
-} catch (err) {
-  const msg = err?.error?.message ?? err?.message ?? 'Unknown server error';
-  if (!res.writableEnded) {
+    res.write('data: [DONE]\n\n');
+    res.end();
+  } catch (err) {
+    const msg = err?.error?.message ?? err?.message ?? 'Unknown server error';
     send({ type: 'error', message: msg });
     res.end();
-  }
-
   }
 });
 

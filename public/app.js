@@ -25,8 +25,7 @@ let intakeData = {
   name:             '',
   major:            '',
   transferFrom:     '',
-  cr
-  editsCompleted: '0',
+  creditsCompleted: '0',
   geoPreference:    '',
   envPreference:    [],
 };
@@ -74,6 +73,24 @@ window.addEventListener('firebase:authed', async (e) => {
   userInitial = (firstName?.[0] || '?').toUpperCase();
   document.querySelectorAll('.msg-avatar--user').forEach(a => a.textContent = userInitial);
 await loadChatSessions();
+
+  // Handle URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('new')) { resetChat(); return; }
+  const sessionId = urlParams.get('session');
+  if (sessionId && currentUserId) {
+    setTimeout(async () => {
+      try {
+        const { db, getDoc, doc } = window.firebaseDB;
+        const snap = await getDoc(doc(db, 'users', currentUserId, 'sessions', sessionId));
+        if (snap.exists()) {
+          await loadSession({ id: snap.id, ...snap.data() });
+        }
+      } catch(e) {
+        console.error('Session load error:', e);
+      }
+    }, 1500);
+  }
 });
 window.addEventListener('session:preloaded', async (e) => {
   await loadSession(e.detail);
@@ -843,9 +860,7 @@ function setupNewChatButtons() {
 }
 
 function confirmNewChat() {
-  if (conversationHistory.length > 0) {
-    if (!confirm('Start a new conversation? This will clear the current chat.')) return;
-  }
+
   resetChat();
 }
 
