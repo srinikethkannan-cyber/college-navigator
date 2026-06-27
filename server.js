@@ -160,7 +160,6 @@ app.post('/api/chat', async (req, res) => {
     res.end();
   }
 });
-    });
 
     await stream.done();
     if (!res.writableEnded) { res.write('data: [DONE]\n\n'); res.end(); }
