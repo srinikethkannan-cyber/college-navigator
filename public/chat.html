@@ -18,7 +18,7 @@
   <script type="module">
     import { auth, signOut, onAuthStateChanged, db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from './firebase-init.js';
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (!user) {
         window.location.href = '/login.html';
         return;
@@ -26,7 +26,7 @@
 
       // Redirect returning users to dashboard unless coming with a session or new chat
 const urlParams = new URLSearchParams(window.location.search);
-if (!urlParams.get('session') && !urlParams.get('new')) {
+      if (!urlParams.get('session') && !urlParams.get('new')) {
   window.location.href = '/dashboard.html';
   return;
 }
@@ -34,18 +34,15 @@ if (!urlParams.get('session') && !urlParams.get('new')) {
 document.body.style.opacity = '1';
 // Store user globally so app.js can read it
 window.currentFirebaseUser = user;
-// Load session from URL
-      const urlParams = new URLSearchParams(window.location.search);
+window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
       const sessionId = urlParams.get('session');
       if (sessionId) {
-        const snap = await getDoc(doc(db, 'users', user.uid, 'sessions', sessionId));
-        if (snap.exists()) {
-          const session = { id: snap.id, ...snap.data() };
-          window.__preloadedSession = session;
-          window.dispatchEvent(new CustomEvent('session:preloaded', { detail: session }));
-        }
-      }
-      window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
+        try {
+          const snap = await getDoc(doc(db, 'users', user.uid, 'sessions', sessionId));
+          if (snap.exists()) {
+            window.dispatchEvent(new CustomEvent('session:preloaded', { detail: { id: snap.id, ...snap.data() } }));
+          }
+        } catch(e) { console.error(e); }
 
       // Reveal the page
       document.body.style.opacity = '1';
