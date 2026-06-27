@@ -43,6 +43,7 @@ window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, d
             window.dispatchEvent(new CustomEvent('session:preloaded', { detail: { id: snap.id, ...snap.data() } }));
           }
         } catch(e) { console.error(e); }
+      }
 
       // Reveal the page
       document.body.style.opacity = '1';
