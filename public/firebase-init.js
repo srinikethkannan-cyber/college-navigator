@@ -12,6 +12,7 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
   doc,
   updateDoc,
   deleteDoc,
@@ -37,5 +38,5 @@ const googleProvider = new GoogleAuthProvider();
 
 export {
   auth, googleProvider, signInWithPopup, signOut, onAuthStateChanged,
-  db, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp,
+  db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp,
 };

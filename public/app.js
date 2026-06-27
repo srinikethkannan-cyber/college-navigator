@@ -25,7 +25,8 @@ let intakeData = {
   name:             '',
   major:            '',
   transferFrom:     '',
-  creditsCompleted: '0',
+  cr
+  editsCompleted: '0',
   geoPreference:    '',
   envPreference:    [],
 };
@@ -72,8 +73,18 @@ window.addEventListener('firebase:authed', async (e) => {
   currentUserName = firstName || '';
   userInitial = (firstName?.[0] || '?').toUpperCase();
   document.querySelectorAll('.msg-avatar--user').forEach(a => a.textContent = userInitial);
+await loadChatSessions();
 
-  await loadChatSessions();
+  // Load session from URL if coming from dashboard
+  const urlParams = new URLSearchParams(window.location.search);
+  const sessionId = urlParams.get('session');
+  if (sessionId && currentUserId) {
+    const { db, getDoc, doc } = window.firebaseDB;
+    const snap = await getDoc(doc(db, 'users', currentUserId, 'sessions', sessionId));
+    if (snap.exists()) {
+      await loadSession({ id: snap.id, ...snap.data() });
+    }
+  }
 });
 
 // ════════════════════════════════════════════════════════════════
