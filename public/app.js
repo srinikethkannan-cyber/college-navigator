@@ -25,8 +25,7 @@ let intakeData = {
   name:             '',
   major:            '',
   transferFrom:     '',
-  cr
-  editsCompleted: '0',
+  creditsCompleted: '0',
   geoPreference:    '',
   envPreference:    [],
 };
