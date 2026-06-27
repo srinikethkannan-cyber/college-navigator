@@ -24,8 +24,14 @@
         return;
       }
 
-      // Store user globally so app.js can read it
-      window.currentFirebaseUser = user;
+      // Redirect returning users to dashboard unless coming with a session or new chat
+const urlParams = new URLSearchParams(window.location.search);
+if (!urlParams.get('session') && !urlParams.get('new')) {
+  window.location.href = '/dashboard.html';
+  return;
+}
+// Store user globally so app.js can read it
+window.currentFirebaseUser = user;
       window.firebaseDB = { db, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, serverTimestamp };
 
       // Reveal the page
@@ -53,7 +59,7 @@
   <!-- ═══════════════════════════════════════════
        INTAKE OVERLAY — multi-step wizard
   ════════════════════════════════════════════ -->
-  <div class="intake-overlay" id="intakeOverlay">
+  <div class="intake-overlay" id="intakeOverlay" style="display:none">
     <div class="intake-card intake-card--wide">
 
       <a href="index.html" class="intake-back">
