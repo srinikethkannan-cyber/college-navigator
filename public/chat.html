@@ -34,6 +34,17 @@ if (!urlParams.get('session') && !urlParams.get('new')) {
 window.currentFirebaseUser = user;
 // Always reveal the page
 document.body.style.opacity = '1';
+// Load session from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const sessionId = urlParams.get('session');
+      if (sessionId) {
+        const snap = await getDoc(doc(db, 'users', user.uid, 'sessions', sessionId));
+        if (snap.exists()) {
+          const session = { id: snap.id, ...snap.data() };
+          window.__preloadedSession = session;
+          window.dispatchEvent(new CustomEvent('session:preloaded', { detail: session }));
+        }
+      }
       window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
 
       // Reveal the page

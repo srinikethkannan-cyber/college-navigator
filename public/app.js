@@ -75,7 +75,9 @@ window.addEventListener('firebase:authed', async (e) => {
   document.querySelectorAll('.msg-avatar--user').forEach(a => a.textContent = userInitial);
 await loadChatSessions();
 });
-
+window.addEventListener('session:preloaded', async (e) => {
+  await loadSession(e.detail);
+});
 // ════════════════════════════════════════════════════════════════
 //  MULTI-STEP INTAKE
 // ════════════════════════════════════════════════════════════════
