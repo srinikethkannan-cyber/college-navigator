@@ -32,6 +32,8 @@ if (!urlParams.get('session') && !urlParams.get('new')) {
 }
 // Store user globally so app.js can read it
 window.currentFirebaseUser = user;
+// Always reveal the page
+document.body.style.opacity = '1';
       window.firebaseDB = { db, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
 
       // Reveal the page
