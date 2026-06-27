@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — College Navigator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { background: var(--gray-50); min-height: 100vh; }
+
+    .dash-nav {
+      background: var(--navy);
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .dash-nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+    .dash-nav-right { display: flex; align-items: center; gap: 16px; }
+    .dash-nav-user { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.8); font-size: 0.875rem; }
+    .dash-nav-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--gold); display: flex; align-items: center;
+      justify-content: center; color: white; font-weight: 700;
+      font-size: 0.8rem; overflow: hidden;
+    }
+    .dash-nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .dash-signout {
+      color: rgba(255,255,255,0.5); font-size: 0.8rem; cursor: pointer;
+      background: none; border: none; font-family: inherit; transition: color 0.15s;
+    }
+    .dash-signout:hover { color: white; }
+
+    .dash-main { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    .dash-welcome { margin-bottom: 40px; }
+    .dash-welcome h1 { font-size: 1.75rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+    .dash-welcome p { color: var(--text-muted); font-size: 0.95rem; }
+
+    .dash-new-chat {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--navy); color: white;
+      border-radius: var(--radius-lg); padding: 20px 28px;
+      margin-bottom: 40px; cursor: pointer; border: none;
+      font-family: inherit; width: 100%; text-align: left;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: var(--shadow-md);
+    }
+    .dash-new-chat:hover { background: var(--navy-light); transform: translateY(-1px); }
+    .dash-new-chat-icon {
+      width: 44px; height: 44px; background: var(--gold);
+      border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+    .dash-new-chat-text strong { display: block; font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
+    .dash-new-chat-text span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+    .dash-new-chat-arrow { margin-left: auto; color: rgba(255,255,255,0.4); }
+
+    .dash-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .dash-section-title { font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .dash-section-count { font-size: 0.8rem; color: var(--text-muted); background: var(--gray-100); padding: 2px 10px; border-radius: 20px; }
+
+    .dash-conversations {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px; margin-bottom: 48px;
+    }
+    .dash-conv-card {
+      background: white; border-radius: var(--radius-md); padding: 20px;
+      cursor: pointer; border: 1.5px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+      text-align: left; width: 100%; font-family: inherit;
+    }
+    .dash-conv-card:hover { border-color: var(--gold); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .dash-conv-icon {
+      width: 36px; height: 36px; background: var(--gray-50);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; margin-bottom: 12px; color: var(--navy);
+    }
+    .dash-conv-title { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dash-conv-preview { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 12px; }
+    .dash-conv-meta { font-size: 0.75rem; color: var(--gray-400); display: flex; align-items: center; gap: 6px; }
+    .dash-conv-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gray-400); }
+
+    .dash-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1 / -1; }
+    .dash-empty-icon { width: 56px; height: 56px; background: var(--gray-100); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--gray-400); }
+    .dash-empty h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .dash-empty p { font-size: 0.875rem; }
+
+    .dash-college-list { background: white; border-radius: var(--radius-lg); border: 1.5px solid var(--gray-100); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .dash-college-empty { padding: 40px 24px; text-align: center; color: var(--text-muted); font-size: 0.875rem; }
+    .dash-college-empty p { margin-bottom: 4px; }
+    .dash-college-hint { font-size: 0.8rem; color: var(--gray-400); }
+
+    .dash-skeleton { background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-50) 50%, var(--gray-100) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .dash-skel-card { background: white; border-radius: var(--radius-md); padding: 20px; border: 1.5px solid var(--gray-100); }
+    .dash-skel-line { height: 12px; margin-bottom: 8px; }
+    .dash-skel-line:last-child { margin-bottom: 0; width: 60%; }
+  </style>
+</head>
+<body style="opacity:0">
+
+  <script type="module">
+    import { auth, signOut, onAuthStateChanged, db, collection, getDocs, query, orderBy } from './firebase-init.js';
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = '/login.html'; return; }
+
+      document.body.style.opacity = '1';
+
+      const img = document.getElementById('navAvatarImg');
+      const initial = document.getElementById('navInitial');
+      const nameEl = document.getElementById('navName');
+
+      if (user.photoURL && img) { img.src = user.photoURL; img.style.display = 'block'; if (initial) initial.style.display = 'none'; }
+      if (nameEl) nameEl.textContent = user.displayName?.split(' ')[0] || 'You';
+
+      const firstName = user.displayName?.split(' ')[0] || 'back';
+      const welcomeEl = document.getElementById('welcomeName');
+      if (welcomeEl) welcomeEl.textContent = `Welcome back, ${firstName} 👋`;
+
+      document.getElementById('signOutBtn')?.addEventListener('click', async () => {
+        await signOut(auth);
+        window.location.href = '/login.html';
+      });
+
+      await loadSessions(user.uid);
+    });
+
+    async function loadSessions(uid) {
+      const container = document.getElementById('conversationGrid');
+      const countEl   = document.getElementById('sessionCount');
+      try {
+        const q = query(collection(db, 'users', uid, 'sessions'), orderBy('updatedAt', 'desc'));
+        const snapshot = await getDocs(q);
+        const sessions = [];
+        snapshot.forEach(d => sessions.push({ id: d.id, ...d.data() }));
+        if (countEl) countEl.textContent = sessions.length;
+        container.innerHTML = '';
+        if (sessions.length === 0) {
+          container.innerHTML = `<div class="dash-empty"><div class="dash-empty-icon"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>No conversations yet</h3><p>Start your first conversation to get personalized college guidance.</p></div>`;
+          return;
+        }
+        sessions.forEach(session => {
+          const firstMsg = session.messages?.find(m => m.role === 'assistant')?.content || '';
+          const preview  = firstMsg.replace(/[#*`]/g, '').slice(0, 100);
+          const date     = session.updatedAt?.toDate?.() || new Date();
+          const dateStr  = formatDate(date);
+          const msgCount = Math.floor((session.messages?.length || 0) / 2);
+          const card = document.createElement('button');
+          card.className = 'dash-conv-card';
+          card.innerHTML = `
+            <div class="dash-conv-icon"><svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="dash-conv-title">${escapeHtml(session.title || 'Conversation')}</div>
+            <div class="dash-conv-preview">${escapeHtml(preview) || 'Click to continue this conversation'}</div>
+            <div class="dash-conv-meta"><span>${dateStr}</span><span class="dash-conv-dot"></span><span>${msgCount} exchange${msgCount !== 1 ? 's' : ''}</span></div>`;
+          card.addEventListener('click', () => { window.location.href = `/chat.html?session=${session.id}`; });
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Failed to load sessions:', err);
+        container.innerHTML = '<div class="dash-empty"><p>Failed to load conversations. Please refresh.</p></div>';
+      }
+    }
+
+    function formatDate(date) {
+      const now  = new Date();
+      const diff = now - date;
+      const mins = Math.floor(diff / 60000);
+      const hrs  = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      if (mins < 1)  return 'Just now';
+      if (mins < 60) return `${mins}m ago`;
+      if (hrs < 24)  return `${hrs}h ago`;
+      if (days < 7)  return `${days}d ago`;
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+  </script>
+
+  <nav class="dash-nav">
+    <a href="dashboard.html" class="dash-nav-logo">
+      <svg viewBox="0 0 32 32" fill="none" width="22" height="22">
+        <path d="M16 3 3 10l13 7 13-7-13-7z" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M3 22l13 7 13-7" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M3 16l13 7 13-7" stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"/>
+      </svg>
+      College Navigator
+    </a>
+    <div class="dash-nav-right">
+      <div class="dash-nav-user">
+        <div class="dash-nav-avatar" id="navAvatar">
+          <img id="navAvatarImg" style="display:none" alt="profile" />
+          <span id="navInitial">?</span>
+        </div>
+        <span id="navName"></span>
+      </div>
+      <button class="dash-signout" id="signOutBtn">Sign out</button>
+    </div>
+  </nav>
+
+  <main class="dash-main">
+    <div class="dash-welcome">
+      <h1 id="welcomeName">Welcome back 👋</h1>
+      <p>Pick up where you left off or start a new conversation.</p>
+    </div>
+
+    <button class="dash-new-chat" onclick="window.location.href='/chat.html?new=1'">
+      <div class="dash-new-chat-icon">
+        <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+          <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="dash-new-chat-text">
+        <strong>Start New Conversation</strong>
+        <span>Get personalized college guidance, essay help, or financial aid strategy</span>
+      </div>
+      <div class="dash-new-chat-arrow">
+        <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </button>
+
+    <div class="dash-section-header">
+      <span class="dash-section-title">Your Conversations</span>
+      <span class="dash-section-count" id="sessionCount">0</span>
+    </div>
+
+    <div class="dash-conversations" id="conversationGrid">
+      <div class="dash-skel-card"><div class="dash-skeleton dash-skel-line" style="width:40%;height:10px;margin-bottom:12px"></div><div class="dash-skeleton dash-skel-line" style="width:100%"></div><div class="dash-skeleton dash-skel-line" style="width:80%"></div><div class="dash-skeleton dash-skel-line"></div></div>
+      <div class="dash-skel-card"><div class="dash-skeleton dash-skel-line" style="width:55%;height:10px;margin-bottom:12px"></div><div class="dash-skeleton dash-skel-line" style="width:100%"></div><div class="dash-skeleton dash-skel-line" style="width:70%"></div><div class="dash-skeleton dash-skel-line"></div></div>
+      <div class="dash-skel-card"><div class="dash-skeleton dash-skel-line" style="width:45%;height:10px;margin-bottom:12px"></div><div class="dash-skeleton dash-skel-line" style="width:100%"></div><div class="dash-skeleton dash-skel-line" style="width:90%"></div><div class="dash-skeleton dash-skel-line"></div></div>
+    </div>
+
+    <div class="dash-section-header">
+      <span class="dash-section-title">My College List</span>
+    </div>
+    <div class="dash-college-list">
+      <div class="dash-college-empty">
+        <p>You haven't saved any colleges yet.</p>
+        <p class="dash-college-hint">Ask the AI to help you build your list — then save schools here to track deadlines and draft emails.</p>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
