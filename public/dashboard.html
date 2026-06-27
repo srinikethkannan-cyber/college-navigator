@@ -172,6 +172,25 @@
             <div class="dash-conv-preview">${escapeHtml(preview) || 'Click to continue this conversation'}</div>
             <div class="dash-conv-meta"><span>${dateStr}</span><span class="dash-conv-dot"></span><span>${msgCount} exchange${msgCount !== 1 ? 's' : ''}</span></div>`;
           card.addEventListener('click', () => { window.location.href = `/chat.html?session=${session.id}`; });
+
+const deleteBtn = document.createElement('button');
+deleteBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+deleteBtn.style.cssText = 'position:absolute;top:12px;right:12px;background:none;border:none;color:#9AA3B5;cursor:pointer;padding:4px;border-radius:4px;opacity:0;transition:opacity 0.15s;';
+deleteBtn.addEventListener('click', async (e) => {
+  e.stopPropagation();
+  if (!confirm('Delete this conversation?')) return;
+  const { db, doc, deleteDoc } = window.firebaseDB || {};
+  if (!db) return;
+  await deleteDoc(doc(db, 'users', uid, 'sessions', session.id));
+  card.remove();
+  const remaining = container.querySelectorAll('.dash-conv-card').length;
+  if (countEl) countEl.textContent = remaining;
+  if (remaining === 0) container.innerHTML = `<div class="dash-empty"><h3>No conversations yet</h3><p>Start your first conversation.</p></div>`;
+});
+card.style.position = 'relative';
+card.addEventListener('mouseenter', () => deleteBtn.style.opacity = '1');
+card.addEventListener('mouseleave', () => deleteBtn.style.opacity = '0');
+card.appendChild(deleteBtn);
           container.appendChild(card);
         });
       } catch (err) {
